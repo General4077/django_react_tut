@@ -5,6 +5,8 @@ from .models import Room
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+CODE_KWARG = "code"
+
 
 class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
@@ -13,10 +15,9 @@ class RoomView(generics.CreateAPIView):
 
 class GetRoom(APIView):
     serializer_class = RoomSerializer
-    lookup_url_kwarg = "code"
 
     def get(self, request, format=None):
-        code = request.GET.get(self.lookup_url_kwarg)
+        code = request.GET.get(CODE_KWARG)
         if code != None:
             room = Room.objects.filter(code=code)
             if len(room) > 0:
