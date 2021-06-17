@@ -11,12 +11,20 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { FormControl, FormLabel } from '@material-ui/core';
 
 export default class CreateRoomPage extends Component{
-    defaultVotes = 2;
+    static defaultProps = {
+        votesToSkip: 2,
+        guestCanPause: true,
+        update: false,
+        roomCode: null,
+        updateCallback: () => { }
+    };
     constructor(props) {
         super(props);
         this.state = {
-            guestCanPause: true,
-            votesToSkip: this.defaultVotes
+            guestCanPause: this.props.guestCanPause,
+            votesToSkip: this.props.votesToSkip,
+            errorMsg: "",
+            successMsg: "",
         };
 
         this.handleVotesChange = this.handleVotesChange.bind(this)
@@ -82,7 +90,7 @@ export default class CreateRoomPage extends Component{
                         <FormHelperText >
                             <div align="center">Guest Control of Playback State</div>
                         </FormHelperText>
-                        <RadioGroup row defaultValue='true' onChange={this.handleGuestCanPauseChange}>
+                        <RadioGroup row defaultValue={this.props.guestCanPause.toString()} onChange={this.handleGuestCanPauseChange}>
                             <FormControlLabel value='true' control={<Radio color="primary" />} label="Play/Pause" labelPlacement="bottom" />
                             <FormControlLabel value='false' control={<Radio color="secondary" />} label="No Control" labelPlacement="bottom" />
                         </RadioGroup>
@@ -90,7 +98,7 @@ export default class CreateRoomPage extends Component{
                 </Grid>
                 <Grid item xs={12} align="center">
                     <FormControl>
-                        <TextField required={true} type="number" onChange={this.handleVotesChange} defaultValue={this.defaultVotes}
+                        <TextField required={true} type="number" onChange={this.handleVotesChange} defaultValue={this.state.votesToSkip}
                             inputProps={{ min: 1, style: {textAlign: "center"}}} />
                         <FormHelperText>
                             <div align="center">
