@@ -48,6 +48,29 @@ export default class CreateRoomPage extends Component{
         fetch("/api/create-room", requestOptions).then((response) => response.json()).then((data) => this.props.history.push('/room/' + data.code)) 
     }
 
+    renderCreateButtons() {
+        return (<Grid container spacing={1}>
+            <Grid item xs={12} align="center">
+                    <Button color="primary" variant="contained" onClick={this.handleRoomButtonPress}>
+                Create A Room
+                    </Button>
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <Button color="secondary" variant="contained" to="/" component={Link}>
+                    Back
+                    </Button>
+                </Grid>
+            </Grid>);
+    }
+
+    renderUpdateButtons() {
+        return (
+            <Grid item xs={12} align="center">
+                <Button color="primary" variant="contained" onClick={this.handleUpdateButtonPress}>
+                    Update A Room
+                    </Button>
+            </Grid>);
+        }
     render() {
         return (<Grid container spacing={1}>
             <Grid item xs={12} align="center">
@@ -76,16 +99,7 @@ export default class CreateRoomPage extends Component{
                         </FormHelperText>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} align="center">
-                    <Button color="primary" variant="contained" onClick={this.handleRoomButtonPress}>
-                        Create A Room
-                    </Button>
-                </Grid>
-                <Grid item xs={12} align="center">
-                    <Button color="secondary" variant="contained" to="/" component={Link}>
-                        Back
-                    </Button>
-                </Grid>
+                {this.props.update ? this.renderUpdateButtons() : this.renderCreateButtons()}
             </Grid>
         </Grid>
         );
